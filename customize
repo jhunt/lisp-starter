@@ -1,0 +1,27 @@
+#!/bin/sh
+
+FILES=
+for f in *.lisp *.asd Makefile Dockerfile README.md; do
+	FILES="$FILES $f"
+done
+
+ddmmmyyyy=$(date +"%d %b %Y")
+yyyy=$(date +"%Y")
+symbol=$(echo $1 | tr A-Z A-Z)
+PROJECT=$(echo $1 | tr a-z A-Z)
+echo
+echo "Customizing this Lisp project..."
+echo
+echo "  Replacing 'DD MMM YYYY' => '$ddmmmyyyy'"
+sed -i -e "s/DD MMM YYYY/$ddmmmyyyy/g" $FILES
+echo "  Replacing 'YYYY'        => '$yyyy'"
+sed -i -e "s/YYYY/$yyyy/g" $FILES
+echo "  Replacing 'FOO'         => '$PROJECT'"
+sed -i -e "s/FOO/$PROJECT/g" $FILES
+echo "  Replacing 'foo'         => '$symbol'"
+sed -i -e "s/foo/$symbol/g" $FILES
+echo
+echo "  Renaming foo.asd -> $symbol.asd..."
+mv foo.asd $symbol.asd
+echo "  Removing ./customize..."
+rm -f ./customize
